@@ -22,7 +22,7 @@ llm_config = {
 stock_symbols = st.text_input("Enter the stock symbols separated by commas:")
 stocks = list(map(str, stock_symbols.split(',')))"""
 
-stocks = ["Tatasteel, Indian railways", "Bharath petroleum"]
+stocks = ["DLF","BAJAJ HEALTHCARE"]
 
 date_str = datetime.now().strftime("%Y-%m-%d")
 financial_tasks = [
@@ -40,8 +40,9 @@ financial_tasks = [
     Do not use a solution that requires an API key.
     If some of the data does not makes sense, such as a price of 0, change the query and re-try.""",
 
-    """Predict future stock prices using MA, AR, ARIMA, LSTM, Prophet, and SARIMAX. Perform technical and fundamental analysis, provide images of the technical analysis, and save the code. Include future predicted values based on news, technical analysis, and indicators, specifying the method, timeframe, and stop-loss.
-    Investigate possible reasons of the stock performance leveraging market news headlines from Bing News,google news or Google Search. Retrieve news headlines using python and return them. Use the full name stocks to retrieve headlines. Retrieve at least 10 headlines per stock. Do not use a solution that requires an API key. Do not perform a sentiment analysis.""",
+    """Predict future stock prices using MA, AR, ARIMA, LSTM, Prophet, and SARIMAX. Perform technical and fundamental analysis, provide images of the technical analysis, and save the code. Include future predicted values based on news, technical analysis, and indicators and any advanced stock price prediction mechanism, specifying the method, timeframe, and stop-loss.
+    give a detailed analysis of the stocks, compare the stocks, consider their correlation and risks, provide a comparative analysis of the stocks give table of prediction mechanim , prediced price, timeframe and stoploss.
+     Investigate possible reasons of the stock performance leveraging market news headlines from Bing News,google news or Google Search. Retrieve news headlines using python and return them. Use the full name stocks to retrieve headlines. Retrieve at least 10 headlines per stock. Do not use a solution that requires an API key. Do not perform a sentiment analysis.""",
 
 ]
 
@@ -199,14 +200,14 @@ critic.register_nested_chats(
 )
 
 # ===
-
+work_dir = f"coding{datetime.now().strftime("%Y%m%d%H%M%S")}"
 user_proxy_auto = autogen.UserProxyAgent(
     name="User_Proxy_Auto",
     human_input_mode="NEVER",
     is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={
         "last_n_messages": 3,
-        "work_dir": "coding",
+        "work_dir": work_dir,
         "use_docker": False,
     },  
 )
