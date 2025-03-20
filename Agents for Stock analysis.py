@@ -22,44 +22,70 @@ llm_config = {
 stock_symbols = st.text_input("Enter the stock symbols separated by commas:")
 stocks = list(map(str, stock_symbols.split(',')))"""
 
-stocks = ["DLF","BAJAJ HEALTHCARE"]
+stocks = ["Reliance","Tata Motors"]
 
 date_str = datetime.now().strftime("%Y-%m-%d")
 financial_tasks = [
-    f"""Today is the {date_str}. 
-    What are the current stock prices of {stocks},get the stocks tickers in indian markets and how is the performance over the past 6 months in terms of percentage change? 
-    Start by retrieving the full name of each stock and use it for all future requests.
-    Prepare a figure of the normalized price of these stocks and save it to a file named normalized_prices.png. Include information about, if applicable: 
-    * P/E ratio
-    * Forward P/E
-    * Dividends
-    * Price to book
-    * Debt/Eq
-    * ROE
-    * Analyze the correlation between the stocks
-    Do not use a solution that requires an API key.
-    If some of the data does not makes sense, such as a price of 0, change the query and re-try.""",
+    f"""
+**Task:**
+Do not simulate fake data for this task. Use the real data from the stock market using angel one smart apiṅ.
+1. **Retrieve {stocks} Information useing groww api useage ask user if any authentication required.:**
+   - Get the full names and stock tickers of the spece over the past 6 months in terms of percentage change.
+   - Include the following financial metrics, if applicable:
+     - P/E ratio
+     - Forward P/E
+     - Dividends
+     - Price to book
+     - Debt/Eq
+     - ROE
 
-    """Predict future stock prices using MA, AR, ARIMA, LSTM, Prophet, and SARIMAX. Perform technical and fundamental analysis, provide images of the technical analysis, and save the code. Include future predicted values based on news, technical analysis, and indicators and any advanced stock price prediction mechanism, specifying the method, timeframe, and stop-loss.
-    give a detailed analysis of the stocks, compare the stocks, consider their correlation and risks, provide a comparative analysis of the stocks give table of prediction mechanim , prediced price, timeframe and stoploss.
-     Investigate possible reasons of the stock performance leveraging market news headlines from Bing News,google news or Google Search. Retrieve news headlines using python and return them. Use the full name stocks to retrieve headlines. Retrieve at least 10 headlines per stock. Do not use a solution that requires an API key. Do not perform a sentiment analysis.""",
+2. **Visualize Stock Prices:**
+   - Prepare a figure of the normalized price of these stocks.
+   - Save the figure to a file named `normalized_prices.png`.
 
+3. **Analyze Correlation:**
+   - Analyze the correlation between the stocks.
+""","""
+4. **Predict Future Stock Prices:**
+   - Use the following methods to predict future stock prices:
+     - MA (Moving Average)
+     - AR (AutoRegressive)
+     - ARIMA (AutoRegressive Integrated Moving Average)
+     - LSTM (Long Short-Term Memory)
+     - Prophet
+     - SARIMAX (Seasonal AutoRegressive Integrated Moving-Average with eXogenous factors)
+   - Perform technical and fundamental analysis.
+   - Provide images of the technical analysis.
+   - Save the code used for the analysis.
+   - Include future predicted values based on news, technical analysis, and indicators.
+   - Specify the method, timeframe, and stop-loss.
+
+5. **Investigate Stock Performance:**
+   - Retrieve market news headlines related to the stocks using Python.
+   - Retrieve at least 10 headlines per stock.
+   - Do not use a solution that requires an API key.
+   - Do not perform sentiment analysis.
+
+**Output:**
+   - A table of prediction mechanisms, predicted prices, timeframes, and stop-loss.
+   - Python code for Prophet, LSTM, and SARIMAX to predict the prices.
+   - News headlines related to the stocks.
+"""
 ]
 
 
 
 writing_tasks = [
-        """Develop an engaging financial report using all information provided, include the normalized_prices.png figure,
-        and other figures if provided.
-        Mainly rely on the information provided. 
-        Create a table comparing all the fundamental ratios and data.
-        Provide comments and description of all the fundamental ratios and data.
-        Compare the stocks, consider their correlation and risks, provide a comparative analysis of the stocks.
-        Provide a summary of the recent news about each stock. 
-        Ensure that you comment and summarize the news headlines for each stock, provide a comprehensive analysis of the news.
-        Provide connections between the news headlines provided and the fundamental ratios.
-        Provide an analysis of possible future scenarios. 
-        provide the future predicted value based on news ,technical analysis and indicators
+        """It looks like you want a comprehensive financial report that includes various analyses and visualizations. To proceed, I'll need the following information:
+
+1. **Normalized Prices Figure**: Please provide the `normalized_prices.png` figure.
+2. **Other Figures**: Any additional figures you want to include.
+3. **Fundamental Ratios and Data**: Detailed information on the fundamental ratios and data for the stocks.
+4. **Recent News Headlines**: Summaries or links to recent news headlines for each stock.
+5. **Technical and Fundamental Analysis Images**: RSI images and any other technical analysis images.
+6. **Advanced Stock Predicting Images**: Any images related to advanced stock prediction.
+7. **Predicted Prices Table**: A table of predicted prices using different methods target value, and stop-loss with timeframe.
+for this ommit legal reviewer and mention a disclamier.
         """]
 
 exporting_task = ["""Save the report and only the report to a .md file using a python script."""]
@@ -200,14 +226,14 @@ critic.register_nested_chats(
 )
 
 # ===
-work_dir = f"coding{datetime.now().strftime("%Y%m%d%H%M%S")}"
+
 user_proxy_auto = autogen.UserProxyAgent(
     name="User_Proxy_Auto",
     human_input_mode="NEVER",
     is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={
         "last_n_messages": 3,
-        "work_dir": work_dir,
+        "work_dir": "work_dir",
         "use_docker": False,
     },  
 )
